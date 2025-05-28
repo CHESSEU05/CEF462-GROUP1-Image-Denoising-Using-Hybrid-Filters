@@ -44,31 +44,62 @@ Evaluate the performance of three basic filters—Mean, Gaussian, and Median—o
 
 ---
 
-## 🔹 Sub-task 3: Proposed Hybrid Denoising Method
+## 🔹 Sub-task 3: Proposed Hybrid Denoising Methods
 
-### Method: Adaptive Edge-Preserving Filter
+### Objective:
+Propose and implement **novel or hybrid denoising methods from scratch** that better preserve edges while reducing noise.
+
+We propose two advanced strategies:
+
+---
+
+### 1. Edge-Aware Adaptive Filtering with Spatially Varying Smoothing
 
 #### Concept:
-Combine edge detection and adaptive filtering:
-- Use **Canny Edge Detector** to identify edges.
-- Apply **strong smoothing** (e.g., Gaussian) to non-edge areas.
-- Apply **weaker smoothing** or preserve pixels in edge areas.
+Combine edge detection with a spatially adaptive filtering strategy that varies smoothing strength based on **local image variance**:
+- Use **Canny Edge Detector** to identify significant edges.
+- Compute **local variance** in image patches to assess noise intensity.
+- Apply:
+  - **Strong smoothing** (e.g., Gaussian) in flat/noisy areas.
+  - **Weak or no smoothing** in regions of high variance or near edges.
 
-#### Steps:
-1. Detect edges in noisy image.
-2. Create edge mask.
-3. Apply Gaussian filter to non-edge areas.
-4. Apply Median filter to edge areas or retain original pixels.
-5. Combine results using the mask.
+#### Algorithm Steps:
+1. Compute an edge map using the Canny detector.
+2. Calculate local variance across the image using sliding windows.
+3. Generate a weight map from variance (e.g., normalize to [0,1]).
+4. Perform adaptive Gaussian filtering, adjusting kernel size or strength based on the variance and edge map.
+5. Merge the smoothed and original image using the adaptive weights and edge mask.
 
 #### Advantages:
-- Adaptive to image content.
-- Strong noise reduction in flat regions.
-- Edge preservation where detail is critical.
+- Adapts to image structure and content.
+- Strong noise removal in flat regions.
+- High fidelity preservation in textured or edge-dense regions.
+
+---
+
+### 2. Iterative Residual Denoising (IRD)
+
+#### Concept:
+Apply **multiple passes of denoising** while retaining and refining **residual noise components** to progressively improve image quality.
+
+#### Algorithm Steps:
+1. Apply an initial denoising method (e.g., median or wavelet).
+2. Compute the residual: `residual = noisy_image - denoised_image`.
+3. Apply a secondary denoising to the residual.
+4. Add the cleaned residual back to the denoised image.
+5. Repeat steps 2–4 for N iterations or until convergence.
+
+#### Advantages:
+- Recovers fine textures and details lost in the first pass.
+- Gradually reduces structured and unstructured noise.
+- Can be combined with other filters (e.g., hybrid of wavelet and NLM).
+
+---
 
 ### Evaluation:
-- Compared using PSNR and SSIM.
-- Performs better than individual filters by balancing smoothing and detail retention.
+- Both methods are evaluated using PSNR and SSIM.
+- **Edge-aware filtering** shows superior edge preservation and spatial adaptation.
+- **Iterative residual denoising** improves detail recovery and reduces over-smoothing.
 
 ---
 
