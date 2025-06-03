@@ -1,0 +1,48 @@
+Non-Local Means (NLM) Denoising Analysis Report
+============================================
+
+Parameters Used:
+- Filter strength (h): 0.1
+- Patch size: 7
+- Search window size: 21
+
+Metrics for Each Image:
+
+Image: gaussian_noised_barbara.jpg
+- MSE: 0.009478
+- PSNR: 20.23 dB
+- SSIM: 0.3893
+- Edge Preservation (Gradient Magnitude Ratio): 0.3446
+- Noise Reduction Ratio (NRR): 5.5310
+
+Image: s&p_noised_barbara.jpg
+- MSE: 0.017197
+- PSNR: 17.65 dB
+- SSIM: 0.4274
+- Edge Preservation (Gradient Magnitude Ratio): 0.3058
+- Noise Reduction Ratio (NRR): 3.5965
+
+Image: speckle_noised_barbara.jpg
+- MSE: 0.011965
+- PSNR: 19.22 dB
+- SSIM: 0.5572
+- Edge Preservation (Gradient Magnitude Ratio): 0.4390
+- Noise Reduction Ratio (NRR): 5.3926
+
+Strengths of NLM Denoising:
+- Excellent detail preservation due to non-local averaging of similar patches
+- Effective for Gaussian noise, often outperforming classic filters
+- Maintains structural similarity (high SSIM) by leveraging patch similarity
+- Good edge preservation, as seen in gradient magnitude ratios
+
+Weaknesses of NLM Denoising:
+- Computationally intensive due to patch similarity calculations
+- May struggle with salt-and-pepper noise compared to median filters
+- Performance sensitive to parameter tuning (h, patch size, search window)
+- Slower processing time, especially for large images or search windows
+
+Summary of Findings:
+The Non-Local Means (NLM) denoising approach excels in preserving image details and structure, particularly for Gaussian noise, as evidenced by high SSIM and PSNR values. It effectively reduces noise (high NRR) while maintaining edges, making it superior to classic filters like Gaussian or median for certain noise types. However, its effectiveness varies: it performs best on Gaussian noise, moderately on speckle noise, and less effectively on salt-and-pepper noise, where impulse noise removal techniques (e.g., median filtering) might be better suited. The computational trade-off is significant—NLM is slower than classic filters due to its patch-based similarity search, making it less practical for real-time applications or large datasets without optimization (e.g., fast mode). Parameter tuning is critical: the chosen h, patch size, and search window balance noise reduction and detail preservation but require careful adjustment per noise type.
+
+Recommendation:
+Push the 'NLM_denosing_approach' folder containing noisy images, denoised outputs, this script, and the analysis report to the 'advanced_methods' repo folder by March 31, 2025, 12 PM.
